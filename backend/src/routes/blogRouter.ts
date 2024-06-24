@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { verify } from 'hono/jwt'
+import { createBlogInput, updateBlogInput } from "getblog-common";
 
 export const blogRouter = new Hono<{
     Bindings: {
@@ -45,17 +46,27 @@ blogRouter.post('/', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const body = await c.req.json();
-    const userId = c.get("userId");
-    // @ts-ignore
-    const id = (userId.id);
-    const blog = await prisma.post.create({
-        data: {
-            title: body.title,
-            content: body.content,
-            authorId: id
+    try {
+        const { success } = createBlogInput.safeParse(body);
+        if(!success) {
+            c.status(402);
+            return c.json({ Error: "Please enter the valid input" });
         }
-    });
-    return c.json({ blogId: blog.id }); 
+        const userId = c.get("userId");
+        // @ts-ignore
+        const id = (userId.id);
+        const blog = await prisma.post.create({
+            data: {
+                title: body.title,
+                content: body.content,
+                authorId: id
+            }
+        });
+        return c.json({ blogId: blog.id });
+    } catch (error) {
+        c.status(500);
+        return c.json({ Error: "Internal Server Error" });
+    }     
 });
 
 blogRouter.put('/', async (c) => {
@@ -63,22 +74,34 @@ blogRouter.put('/', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const body = await c.req.json();
-    const userId = c.get("userId");
-    const blog = await prisma.post.update({
-        where: {
-            id: body.id
-        },
-        data: {
-            title: body.title,
-            content: body.content,
-            authorId: userId,
+    try {
+        const { success } = updateBlogInput.safeParse(body);
+        if(!success) {
+            c.status(402);
+            return c.json({ Error: "Please enter the valid input" });
         }
-    });
-    return c.json({ blogId: blog.id });
+        const userId = c.get("userId");
+        // @ts-ignore
+        const id = (userId.id);
+        const blog = await prisma.post.update({
+            where: {
+                id: body.id,
+                authorId: id
+            },
+            data: {
+                title: body.title,
+                content: body.content
+            }
+        });
+        return c.json({ blogId: blog.id });
+    } catch (error) {
+        c.status(500);
+        return c.json({ Error: "Internal Server Error" });
+    }
+    
 });
 
 blogRouter.get('/bulk', async (c) => {
-    console.log("All Posts");
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
