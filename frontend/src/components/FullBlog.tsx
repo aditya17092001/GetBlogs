@@ -1,14 +1,6 @@
 import { Avatar } from "./Avatar";
 import { TopBar } from "./TopBar"
 
-interface Blog {
-    "title": String;
-    "content": String;
-    "id": String;
-    "author": {
-      "name": String;
-    }
-}
 export const FullBlog = ({blog}: any) => {
     return (
         <div>

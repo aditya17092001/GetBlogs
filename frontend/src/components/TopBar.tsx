@@ -5,7 +5,7 @@ export const TopBar = () => {
     return (
         <div className="border-b flex justify-between px-10 py-4">
             <div className="flex flex-col justify-center cursor-pointer text-2xl">
-                <Link to={'/'}>
+                <Link to={'/blogs'}>
                         GETBLOG
                 </Link>
             </div>
