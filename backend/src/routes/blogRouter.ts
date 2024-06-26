@@ -49,7 +49,7 @@ blogRouter.post('/', async (c) => {
     try {
         const { success } = createBlogInput.safeParse(body);
         if(!success) {
-            c.status(402);
+            c.status(411);
             return c.json({ Error: "Please enter the valid input" });
         }
         const userId = c.get("userId");
@@ -77,7 +77,7 @@ blogRouter.put('/', async (c) => {
     try {
         const { success } = updateBlogInput.safeParse(body);
         if(!success) {
-            c.status(402);
+            c.status(411);
             return c.json({ Error: "Please enter the valid input" });
         }
         const userId = c.get("userId");
@@ -106,12 +106,16 @@ blogRouter.get('/bulk', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     try {
-        const userId = c.get("userId");
-        // @ts-ignore
-        const authorId = userId.id;
         const blogs = await prisma.post.findMany({
-            where: {
-                authorId
+            select: {
+                content: true,
+                title: true,
+                id: true,
+                author: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         });
         return c.json({ blogs });
@@ -130,6 +134,17 @@ blogRouter.get('/:id', async (c) => {
         const post = await prisma.post.findUnique({
             where: {
                 id: blogId
+            },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                author: {
+                    select: {
+                        name: true
+                    }
+
+                }
             }
         });
         return c.json({ post });
