@@ -10,12 +10,11 @@ export const Blog = () => {
     });
     if(loading) {
         return (
-            <div>
+            <div className="flex justify-center mt-80">
                 <Spinner/>
             </div>
         )
     }
-    console.log(blog);
     return (
         <div>
             <FullBlog blog = {blog}/>
