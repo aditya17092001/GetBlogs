@@ -7,6 +7,9 @@
   "dependencies": {
     "@prisma/client": "^5.15.1",
     "@prisma/extension-accelerate": "^1.1.0",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
+    "bcrypt-ts": "^5.0.2",
     "getblog-common": "^1.0.1",
     "hono": "^4.4.6",
     "prisma": "^5.15.1"
