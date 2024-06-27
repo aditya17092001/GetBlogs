@@ -13,31 +13,31 @@ export interface Blog {
 }
 
 export const useBlog = ({ id }: { id: String }) => {
-    const [loading, setLoading] = useState(true);
-    const [blog, setBlog] = useState<Blog>();
-
-    useEffect(() => {
-      const token = 'Bearer '+localStorage.getItem("token");
-      axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
-        headers: {
-          Authorization: token
-        }
-      }).then(response => {
-        setBlog(response.data.post);
-        setLoading(false); 
-      })
+  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState<Blog>();
+  
+  useEffect(() => {
+    const token = 'Bearer '+localStorage.getItem("token");
+    axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+      headers: {
+        Authorization: token
+      }
+    }).then(response => {
+      setBlog(response.data.post);
+      setLoading(false); 
+    })
     }, [id]);
-
+    
     return {
       loading,
       blog
     } 
-}
-
-export const useBlogs = () => {
+  }
+  
+  export const useBlogs = () => {
     const [loading, setLoading] = useState(true);
     const [blogs, setBlogs] = useState<Blog[]>([]);
-
+    
     useEffect(() => {
       const token = 'Bearer '+localStorage.getItem("token");
       axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
@@ -49,9 +49,9 @@ export const useBlogs = () => {
         setLoading(false); 
       })
     }, []);
-
+    
     return {
       loading,
       blogs
-    }
+  }
 }

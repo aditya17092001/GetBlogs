@@ -4,7 +4,7 @@ import { TopBar } from "./TopBar"
 export const FullBlog = ({blog}: any) => {
     return (
         <div>
-            <TopBar/>
+            <TopBar />
             <div className="flex justify-center pt-12 ">  
                 <div className="grid grid-cols-12 px-10 w-full pt-200 max-w-screen-xl">
                     <div className="col-span-8">

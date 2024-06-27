@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { sign } from 'hono/jwt'
+import { sign, verify } from 'hono/jwt'
 import { singinInput, singupInput } from "getblog-common";
 
 export const userRouter = new Hono<{
@@ -65,4 +65,88 @@ userRouter.post('/signin', async (c) => {
     }
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);
     return c.json({ token });
+});
+
+// userRouter.get('/getUserData', async (c) => {
+//     const prisma = new PrismaClient({
+//         datasourceUrl: c.env.DATABASE_URL,
+//     }).$extends(withAccelerate());
+//     const jwt = c.req.header('Authorization');
+//     if(!jwt) {
+//         c.status(401);
+//         return c.json({ Error: "Unauthorized" });
+//     }
+//     const token = jwt.split(" ");
+//     if(token[0] !== "Bearer") {
+//         c.status(401);
+//         return c.json({ Error: "Unauthorized" });
+//     }
+//     try {
+//         const { id } = await verify(token[1], c.env.JWT_SECRET);
+//         if(!id) {
+//             c.status(401);
+//             return c.json({ Error: "Unauthorized" });
+//         }
+//         else {
+//             const user = await prisma.user.findUnique({
+//                 where: {
+//                     id
+//                 },
+//                 select: {
+//                     id: true,
+//                     name: true
+//                 }
+//             })
+//             c.status(200);
+//             return c.json({ user });
+//         }
+//     } catch (error) {
+//         c.status(401);
+//         return c.json({ Error: "Unauthorized" });
+//     }
+// });
+
+
+userRouter.get('/getUserData', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const jwt = c.req.header('Authorization');
+    if (!jwt) {
+        c.status(401);
+        return c.json({ Error: "Unauthorized" });
+    }
+
+    const tokenParts = jwt.split(" ");
+    if (tokenParts[0] !== "Bearer" || !tokenParts[1]) {
+        c.status(401);
+        return c.json({ Error: "Unauthorized" });
+    }
+
+    try {
+        const payload = await verify(tokenParts[1], c.env.JWT_SECRET) as { id: string };
+        if (!payload.id) {
+            c.status(401);
+            return c.json({ Error: "Unauthorized" });
+        }
+        const user = await prisma.user.findUnique({
+            where: {
+                id: payload.id
+            },
+            select: {
+                id: true,
+                name: true
+            }
+        });
+        if (!user) {
+            c.status(404);
+            return c.json({ Error: "User not found" });
+        }
+        c.status(200);
+        return c.json({ user });
+    } catch (error) {
+        c.status(401);
+        return c.json({ Error: "Unauthorized" });
+    }
 });
