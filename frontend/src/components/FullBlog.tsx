@@ -2,6 +2,7 @@ import { Avatar } from "./Avatar";
 import { TopBar } from "./TopBar"
 
 export const FullBlog = ({blog}: any) => {
+    const date = new Date(blog.date);
     return (
         <div>
             <TopBar />
@@ -10,7 +11,7 @@ export const FullBlog = ({blog}: any) => {
                     <div className="col-span-8">
                         <div className="text-5xl font-extrabold">{blog.title}</div>
                         <div className="text-slate-500 pt-2">
-                            Posted on 2nd December 2023
+                            Last updated on {date.getDate()}/ {date.getMonth()+1}/ {date.getUTCFullYear()} . {date.getHours()}:{date.getMinutes()}
                         </div>
                         <div className="pt-4 ">{blog.content}</div>
                     </div>

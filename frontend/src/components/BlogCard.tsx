@@ -55,7 +55,7 @@ interface BlogCardProps {
     authorName: String;
     title: String;
     content: String;
-    publishedDate: String;
+    publishedDate: Date;
     id: String;
 }
 
@@ -66,6 +66,7 @@ export const BlogCard = ({
     content,
     publishedDate
 }: BlogCardProps) => {
+    const date = new Date(publishedDate);
     return (
         <Link to={`/blog/${id}`}>
             <div className="border-b border-slate-200 pb-4 p-4 w-screen max-w-screen-md cursor-pointer">
@@ -80,7 +81,7 @@ export const BlogCard = ({
                         <Circle />
                     </div>
                     <div className="flex flex-col justify-center text-slate-400 pl-2 text-sm">
-                        {publishedDate}
+                        {date.getDate()}/ {date.getMonth()+1}/ {date.getUTCFullYear()} 
                     </div>
                 </div>
                 <div className="text-xl font-semibold">{title}</div>

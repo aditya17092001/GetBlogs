@@ -30,12 +30,12 @@ export const Blogs = () => {
             <TopBar/>
             <div className="flex justify-center">
                 <div className="">
-                    {blogs.map(blog => <BlogCard 
+                    {blogs.map((blog:any) => <BlogCard 
                     id = {blog.id} 
                     authorName = {blog.author.name} 
                     title = {blog.title} 
                     content = {blog.content} 
-                    publishedDate={"9th Dec 2023"} />)}
+                    publishedDate={ new Date(blog.date)} />)}
                 </div>
             </div>
         </div>

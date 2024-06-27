@@ -7,6 +7,7 @@ export interface Blog {
   "title": String;
   "content": String;
   "id": String;
+  "date": String;
   "author": {
     "name": String;
   }
