@@ -1,9 +1,21 @@
+import { useEffect } from "react";
 import { BlogCard } from "../components/BlogCard"
 import { Spinner } from "../components/Spinner";
 import { TopBar } from "../components/TopBar"
 import { useBlogs } from "../hooks"
+import { useNavigate } from "react-router-dom";
 
 export const Blogs = () => {
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log(token);
+        if (!token) {
+            navigate('/signin');
+        }
+    }, [navigate]);
+    
     const {loading, blogs} = useBlogs();
     if(loading) {
         return (
@@ -12,7 +24,8 @@ export const Blogs = () => {
             </div>
         )
     }
-  
+
+
     return (
         <div>
             <TopBar/>

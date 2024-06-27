@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { TopBar } from "../components/TopBar";
 
 export const Publish = () => {
@@ -9,6 +9,14 @@ export const Publish = () => {
     const [description, setDescription] = useState("");
     const navigate = useNavigate();
     const token = 'Bearer '+localStorage.getItem("token");
+
+    useEffect(() => {
+        const localStorageToken = localStorage.getItem('token');
+        console.log(localStorageToken)
+        if (!localStorageToken) {
+            navigate('/signin');
+        }
+    }, [navigate]);
 
     return <div>
         <TopBar />
