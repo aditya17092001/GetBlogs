@@ -20,7 +20,7 @@ export const Auth = ({ type }: { type: "Signin" | "Signup" }) => {
             localStorage.setItem("token", jwt.token);
             navigate("/blogs");
         } catch (error) {
-            alert("Could not able to Proceed!")
+            alert("Please enter a valid credentials!")
         }
     }
     return (

@@ -72,7 +72,6 @@ import { Avatar } from "./Avatar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { Spinner } from "./Spinner";
 import { Profile } from "./Profile";
 
 // Define a type for user details
@@ -82,7 +81,6 @@ type UserDetails = {
 
 export const TopBar = () => {
     const [userDetails, setUserDetails] = useState<UserDetails | null>(null); 
-    const [loading, setLoading] = useState(true);
     const [openProfile, setOpenProfile] = useState(false);
     
     const toggleProfile = () => {
@@ -100,18 +98,12 @@ export const TopBar = () => {
             setUserDetails(response.data.user);
         } catch (error) {
             console.error("Error fetching user details:", error);
-        } finally {
-            setLoading(false);
         }
     }
 
     useEffect(() => {
         getDetails();
     }, []);
-
-    // if (loading) {
-    //     return <div className="flex justify-center mt-80"><Spinner/></div>; 
-    // }
 
     return (
         <div className="border-b flex justify-between px-10 py-4">
