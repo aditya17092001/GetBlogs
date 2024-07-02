@@ -95,6 +95,7 @@ blogRouter.put('/', async (c) => {
                 date: new Date()
             }
         });
+        c.status(200);
         return c.json({ blogId: blog.id });
     } catch (error) {
         c.status(500);
@@ -116,7 +117,8 @@ blogRouter.get('/bulk', async (c) => {
                 date: true,
                 author: {
                     select: {
-                        name: true
+                        name: true,
+                        id: true
                     }
                 }
             }
@@ -145,7 +147,8 @@ blogRouter.get('/:id', async (c) => {
                 date: true,
                 author: {
                     select: {
-                        name: true
+                        name: true,
+                        id: true
                     }
 
                 }
@@ -155,5 +158,41 @@ blogRouter.get('/:id', async (c) => {
     } catch (error) {
         c.status(411)
         return c.json({ message: "Error while fetching blog post" });
+    }
+});
+
+
+blogRouter.delete('/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    try {
+        const blogId = await c.req.param('id');
+        const blog = await prisma.post.findUnique({
+            where: {
+                id: blogId
+            }
+        });
+
+        const userId = c.get("userId");
+        // @ts-ignore
+        const id = (userId.id);
+        console.log(id+", "+typeof(id));
+        console.log(blog?.authorId+", "+typeof(blog?.authorId));
+        if(blog?.authorId != id) {
+            c.status(401);
+            return c.json({ message: "Unauthorized" });
+        }
+        const response = await prisma.post.delete({
+            where: {
+                id: blogId
+            }
+        })
+        c.status(200);
+        return c.json({ response });
+    } catch(e) {
+        console.log(e);
+        c.status(500);
+        return c.json({ message: "Error while deleting blog post" });
     }
 });

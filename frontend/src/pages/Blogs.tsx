@@ -30,7 +30,7 @@ export const Blogs = () => {
             <TopBar/>
             <div className="flex justify-center">
                 <div className="">
-                    {blogs.map((blog:any) => <BlogCard 
+                    {blogs.slice().reverse().map((blog:any) => <BlogCard 
                     id = {blog.id} 
                     authorName = {blog.author.name} 
                     title = {blog.title} 

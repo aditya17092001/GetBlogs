@@ -4,12 +4,12 @@ import { BACKEND_URL } from "../config"
 
 
 export interface Blog {
-  "title": String;
-  "content": String;
-  "id": String;
-  "date": String;
+  "title": string;
+  "content": string;
+  "id": string;
+  "date": string;
   "author": {
-    "name": String;
+    "name": string;
   }
 }
 
