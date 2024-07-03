@@ -45,7 +45,21 @@ export declare const updateBlogInput: z.ZodObject<{
     content: string;
     id: string;
 }>;
+export declare const discussionInput: z.ZodObject<{
+    comment: z.ZodString;
+    postId: z.ZodString;
+    authorId: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    comment: string;
+    postId: string;
+    authorId: string;
+}, {
+    comment: string;
+    postId: string;
+    authorId: string;
+}>;
 export type singupInput = z.infer<typeof singupInput>;
 export type singinInput = z.infer<typeof singinInput>;
 export type CreateBlogInput = z.infer<typeof createBlogInput>;
 export type UpdateBlogInput = z.infer<typeof updateBlogInput>;
+export type DiscussionInput = z.infer<typeof discussionInput>;

@@ -20,7 +20,7 @@ export const Auth = ({ type }: { type: "Signin" | "Signup" }) => {
             localStorage.setItem("token", jwt.token);
             navigate("/blogs");
         } catch (error) {
-            alert("Please enter a valid credentials!")
+            alert("Please enter a valid credentials!\nEnter a valid email address\nPassword must be 8 digits")
         }
     }
     return (

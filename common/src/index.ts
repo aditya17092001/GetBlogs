@@ -22,7 +22,14 @@ export const updateBlogInput = z.object({
     id: z.string()
 })
 
+export const discussionInput = z.object({
+    comment: z.string().min(1),
+    postId: z.string(),
+    authorId: z.string()
+})
+
 export type singupInput = z.infer<typeof singupInput>
 export type singinInput = z.infer<typeof singinInput>
 export type CreateBlogInput = z.infer<typeof createBlogInput>
 export type UpdateBlogInput = z.infer<typeof updateBlogInput>
+export type DiscussionInput = z.infer<typeof discussionInput>
