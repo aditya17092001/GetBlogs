@@ -80,7 +80,7 @@ function TextEditor({ onChange }: { onChange: (e: ChangeEvent<HTMLTextAreaElemen
               id="editor"
               rows={8}
               className="focus:outline-none block w-full px-0 text-sm text-gray-800 bg-white border-0 pl-2"
-              placeholder="Write an article..."
+              placeholder="Write your opinion..."
               required
             />
           </div>
