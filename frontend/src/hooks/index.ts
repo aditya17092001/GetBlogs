@@ -35,7 +35,7 @@ export const useBlog = ({ id }: { id: String }) => {
     } 
   }
   
-  export const useBlogs = () => {
+export const useBlogs = () => {
     const [loading, setLoading] = useState(true);
     const [blogs, setBlogs] = useState<Blog[]>([]);
     
@@ -54,5 +54,38 @@ export const useBlog = ({ id }: { id: String }) => {
     return {
       loading,
       blogs
+    }
   }
+  
+export const useDiscussions = ({ postId }: {postId: string}) => {
+    const [comments, setComments] = useState([]);
+    useEffect(() => {
+      axios.get(`${BACKEND_URL}/api/v1/discussions/${postId}`).then(response => {
+      setComments(response.data.response);
+    });
+  }, [postId]);
+    return {
+      comments
+    }
+}
+
+interface User {
+  name: string;
+  id: string;
+  email: string;
+}
+
+export const useUserDetails = ({ authorId }: { authorId: string }) => {
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<User[]>([]);
+  useEffect(() => {
+      axios.get(`${BACKEND_URL}/api/v1/user/getUserDatabyId/${authorId}`).then(response => {
+        setUserData(response.data.response);
+        setLoading(false);
+      });
+  }, [authorId])
+    return {
+      loading,
+      userData
+    }
 }

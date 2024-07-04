@@ -129,3 +129,28 @@ userRouter.get('/getUserData', async (c) => {
         return c.json({ Error: "Unauthorized" });
     }
 });
+
+userRouter.get('/getUserDatabyId/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    try {
+        const id = await c.req.param('id');
+        const response = await prisma.user.findUnique({
+            where: {
+                id
+            },
+            select: {
+                id: true,
+                email: true,
+                name: true
+            }
+        });
+        c.status(200);
+        return c.json({ response });
+    } catch (error) {
+        c.status(500);
+        return c.json({ error: "Internal server error" });
+    }
+});

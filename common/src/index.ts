@@ -25,7 +25,6 @@ export const updateBlogInput = z.object({
 export const discussionInput = z.object({
     comment: z.string().min(1),
     postId: z.string(),
-    authorId: z.string()
 })
 
 export type singupInput = z.infer<typeof singupInput>

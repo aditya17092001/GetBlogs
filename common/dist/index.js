@@ -26,5 +26,4 @@ exports.updateBlogInput = zod_1.default.object({
 exports.discussionInput = zod_1.default.object({
     comment: zod_1.default.string().min(1),
     postId: zod_1.default.string(),
-    authorId: zod_1.default.string()
 });

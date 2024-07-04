@@ -15,11 +15,15 @@ export const EditBlog = () => {
     const { loading, blog } = useBlog({ id: id || "" });
 
     useEffect(() => {
+        const localStorageToken = localStorage.getItem('token');
+        if (!localStorageToken) {
+            navigate('/signin');
+        }
         if (blog) {
             setTitle(blog.title);
             setDescription(blog.content);
         }
-    }, [blog]);
+    }, [blog, navigate]);
 
     if (loading) {
         return (
@@ -74,7 +78,7 @@ export const EditBlog = () => {
                         }}
                     />
                     <div className="flex justify-between">
-                        <button onClick={toggleUpdate} type="submit" className="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-blue-800"> Update post</button>
+                        <button onClick={toggleUpdate} type="submit" className="focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 inline-flex items-center text-center  bg-blue-700 focus:ring-blue-200  hover:bg-blue-800"> Update post</button>
                         <button onClick={toggleCancel} type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Cancel</button>
                     </div>
                 </div>

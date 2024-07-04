@@ -89,7 +89,7 @@ export const BlogCard = ({
                     {content.substring(0, 100) + "..."}
                 </div>
                 <div className="text-slate-400 text-sm pt-4">
-                    {`${Math.ceil(content.length / 100)} min read`}
+                    {`${Math.ceil(content.length / 230)} min read`}
                 </div>
             </div>
         </Link>

@@ -12,7 +12,6 @@ export const Publish = () => {
 
     useEffect(() => {
         const localStorageToken = localStorage.getItem('token');
-        console.log(localStorageToken);
         if (!localStorageToken) {
             navigate('/signin');
         }

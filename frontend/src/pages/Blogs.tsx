@@ -29,14 +29,27 @@ export const Blogs = () => {
         <div>
             <TopBar/>
             <div className="flex justify-center">
-                <div className="">
+                {/* <div className="">
                     {blogs.slice().reverse().map((blog:any) => <BlogCard 
                     id = {blog.id} 
                     authorName = {blog.author.name} 
                     title = {blog.title} 
                     content = {blog.content} 
                     publishedDate={ new Date(blog.date)} />)}
-                </div>
+                </div> */}
+                <div className="">
+                {blogs.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((blog: any) => (
+                        <BlogCard 
+                            key={blog.id} 
+                            id={blog.id} 
+                            authorName={blog.author.name} 
+                            title={blog.title} 
+                            content={blog.content} 
+                            publishedDate={new Date(blog.date)} 
+                        />
+                    ))}
+                 </div>
+
             </div>
         </div>
     )

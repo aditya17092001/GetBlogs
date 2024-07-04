@@ -23,12 +23,11 @@ export const FullBlog = ({blog}: any) => {
             }
         })
     }, [])
-    
     return (
         <div>
             <TopBar />
             <div className="flex justify-center pt-12 ">  
-                <div className="grid grid-cols-12 px-10 w-full pt-200 max-w-screen-xl">
+                <div className="grid grid-cols-1 lg:grid-cols-12 px-10 w-full pt-200 max-w-screen-xl">
                     <div className="col-span-8">
                         <div className="text-5xl font-extrabold">{blog.title}</div>
                         <div className="flex justify-between">
@@ -50,8 +49,8 @@ export const FullBlog = ({blog}: any) => {
                         </div>
                         <div className="pt-4 ">{blog.content}</div>
                     </div>
-                    <div className="col-span-4 mr-10">
-                        <div className="pl-10">
+                    <div className="lg:col-span-4 mr-10">
+                        <div className="pt-5 lg:pl-10 lg:pt-0">
                             <div className="text-xl">Author</div>
                             <div className="flex">
                                 <div className="flex flex-col justify-center">

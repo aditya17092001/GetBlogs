@@ -75,6 +75,7 @@ blogRouter.put('/', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const body = await c.req.json();
+    console.log(body);
     try {
         const { success } = updateBlogInput.safeParse(body);
         if(!success) {

@@ -1,10 +1,18 @@
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom"
 import { BACKEND_URL } from "../config";
+import { useEffect } from "react";
 
 export const Delete = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        const localStorageToken = localStorage.getItem('token');
+        if (!localStorageToken) {
+            navigate('/signin');
+        }
+    }, [navigate]);
     function toggleCancel() {
         navigate(`/blog/${id}`)
     }
